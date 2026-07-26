@@ -1,0 +1,21 @@
+{
+	"name": "SqlServerTablesample",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_server",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"plsServername": "localhost\\SQLEXPRESS",
+				"plsDatabasename": "dev_clintrail_edc_src"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "src",
+			"table": "CM"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

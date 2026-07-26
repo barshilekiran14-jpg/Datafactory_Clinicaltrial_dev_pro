@@ -1,0 +1,104 @@
+{
+	"name": "ds_SqlServerTablesParam",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_server",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"plsServername": {
+					"value": "@dataset().pDsserverName",
+					"type": "Expression"
+				},
+				"plsDatabasename": {
+					"value": "@dataset().pDsdatabaseName",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"pDsserverName": {
+				"type": "string"
+			},
+			"pDsdatabaseName": {
+				"type": "string"
+			},
+			"pDsSchemaName": {
+				"type": "string"
+			},
+			"PDsTablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "MetadataId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SrcServerName",
+				"type": "varchar"
+			},
+			{
+				"name": "SrcDatabaseName",
+				"type": "varchar"
+			},
+			{
+				"name": "SrcSchemaName",
+				"type": "varchar"
+			},
+			{
+				"name": "SrcTableName",
+				"type": "varchar"
+			},
+			{
+				"name": "IngestionType",
+				"type": "varchar"
+			},
+			{
+				"name": "WatermarkColName",
+				"type": "varchar"
+			},
+			{
+				"name": "WatermarkColValue",
+				"type": "datetime2",
+				"scale": 3
+			},
+			{
+				"name": "StorageAccName",
+				"type": "varchar"
+			},
+			{
+				"name": "LandingContainerName",
+				"type": "varchar"
+			},
+			{
+				"name": "Enabled",
+				"type": "varchar"
+			},
+			{
+				"name": "CreatedDateTime",
+				"type": "datetime2",
+				"scale": 3
+			},
+			{
+				"name": "ModifiedDateTime",
+				"type": "datetime2",
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().pDsSchemaName",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().PDsTablename",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

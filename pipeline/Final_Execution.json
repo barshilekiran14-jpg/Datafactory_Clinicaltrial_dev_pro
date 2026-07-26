@@ -1,0 +1,121 @@
+{
+	"name": "Final_Execution",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ex_src_to_landing",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "sqlTO_landinAdls",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ex_landing_to_bronze",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ex_src_to_landing",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "plLanding_to_bronze",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ex_bronze_to_silver",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ex_landing_to_bronze",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "bronze_to_silver",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Ex_silver_to_gold_dim",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ex_bronze_to_silver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_silvet_to_gold_dimension",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Exsilver_To_gold_Fact",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Ex_silver_to_gold_dim",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_silvet_to_gold_fact",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "dev_clintrail/clinical_master"
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-07-24T09:51:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

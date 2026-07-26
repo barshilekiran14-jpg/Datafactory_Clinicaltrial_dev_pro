@@ -1,0 +1,15 @@
+{
+	"name": "ac-databricks-clintrail",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3e81908e-a588-4f33-88fa-7e03ab339f43",
+		"tenantId": "323ecd8a-32ff-4203-aa10-5842c56d8386"
+	}
+}

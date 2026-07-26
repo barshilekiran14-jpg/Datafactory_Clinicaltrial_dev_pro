@@ -1,0 +1,163 @@
+{
+	"name": "clinicalTrial_final_orchestation",
+	"properties": {
+		"activities": [
+			{
+				"name": "ExFinal_execution",
+				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Final_Execution",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Web_fail",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ExFinal_execution",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-19.centralindia.logic.azure.com:443/workflows/b8568e43ba7b4b35bed0beddb233b79b/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=whEmAqVZ8LM4yCyV6lHlqy7omk2ZrSjknL_lY0ub19Y",
+					"body": {
+						"value": "{\n    \"Status\"  \"Fail\",\n    \"PipelineName\" : \"@{pipeline().Pipeline}\",\n    \"ErroeMsg\" : \"@{activity('ExFinal_execution').Error.Message}\n\n\n}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Web_Succes",
+				"type": "WebActivity",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "ExFinal_execution",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-19.centralindia.logic.azure.com:443/workflows/b8568e43ba7b4b35bed0beddb233b79b/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=whEmAqVZ8LM4yCyV6lHlqy7omk2ZrSjknL_lY0ub19Y",
+					"body": {
+						"value": "{\n    \"Status\"  \"Success\",\n    \"PipelineName\" : \"@{pipeline().Pipeline}\",\n    \"TriggerTime\"  :\"@{pipeline().TriggerTime}\",  \n    \"EndTime\"      :\"@{utcNow()}\"\n\n\n}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Final_Execution",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Web1_Fail",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-19.centralindia.logic.azure.com:443/workflows/b8568e43ba7b4b35bed0beddb233b79b/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=whEmAqVZ8LM4yCyV6lHlqy7omk2ZrSjknL_lY0ub19Y",
+					"body": {
+						"value": "{\n   \"status\" \"Fail\"\n    \"PipelineName\" :\"@{pipeline().Pipeline}\",\n    \"ErroMsg\"      :\"@{activity('Execute Pipeline1').Error?.Message}\n\n}",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Web1_Success",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-19.centralindia.logic.azure.com:443/workflows/b8568e43ba7b4b35bed0beddb233b79b/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=whEmAqVZ8LM4yCyV6lHlqy7omk2ZrSjknL_lY0ub19Y",
+					"body": {
+						"value": "{\n   \"status\" \"Success\"\n    \"PipelineName\" :\"@{pipeline().Pipeline}\",\n    \"startTime\"    :\"@{pipeline().TriggerTime}\",\n    \"EndTime\"      :@{utcNow()}\"\n\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "dev_clintrail/clinical_master"
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-07-26T07:59:51Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
