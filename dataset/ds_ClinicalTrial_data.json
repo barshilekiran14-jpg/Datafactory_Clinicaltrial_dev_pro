@@ -1,0 +1,42 @@
+{
+	"name": "ds_ClinicalTrial_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_Azure_Dls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"pdsfilename": {
+				"type": "string"
+			},
+			"pdsFolderName": {
+				"type": "string"
+			},
+			"pdsContainerName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().pdsfilename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().pdsFolderName",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().pdsContainerName",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

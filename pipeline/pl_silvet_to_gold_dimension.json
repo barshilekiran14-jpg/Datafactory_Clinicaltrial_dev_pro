@@ -1,0 +1,154 @@
+{
+	"name": "pl_silvet_to_gold_dimension",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 2,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "@concat('select * from[',pipeline().parameters.PlSchemaNmae,'].[',pipeline().parameters.plTableName,'] where entityType=''dimension''')",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_SqlServerTablesParam",
+						"type": "DatasetReference",
+						"parameters": {
+							"pDsserverName": {
+								"value": "@pipeline().parameters.PLserverName",
+								"type": "Expression"
+							},
+							"pDsdatabaseName": {
+								"value": "@pipeline().parameters.pldatabaseName",
+								"type": "Expression"
+							},
+							"pDsSchemaName": {
+								"value": "@pipeline().parameters.PlSchemaNmae",
+								"type": "Expression"
+							},
+							"PDsTablename": {
+								"value": "@pipeline().parameters.plTableName",
+								"type": "Expression"
+							}
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"isSequential": false,
+					"activities": [
+						{
+							"name": "Notebook1",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Users/rahul.varal@outlook.com/clinicaltrial_Dev/clinicaltrial_silver_gold/nb_gold_dimensions",
+								"baseParameters": {
+									"srcCatalog": {
+										"value": "@item().SrcCatalog",
+										"type": "Expression"
+									},
+									"srcSchema": {
+										"value": "@item().SrcSchema",
+										"type": "Expression"
+									},
+									"srcTableName": {
+										"value": "@item().SrcTableName",
+										"type": "Expression"
+									},
+									"tgtCatalog": {
+										"value": "@item().TgtCatalog",
+										"type": "Expression"
+									},
+									"tgtSchema": {
+										"value": "@item().TgtSchema",
+										"type": "Expression"
+									},
+									"tgtTableName": {
+										"value": "@item().TgtTableName",
+										"type": "Expression"
+									},
+									"businessKey": {
+										"value": "@item().BusinessKey",
+										"type": "Expression"
+									},
+									"scdType": {
+										"value": "@item().ScdType",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databrics_clinical",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"PLserverName": {
+				"type": "string",
+				"defaultValue": "localhost\\SQLEXPRESS"
+			},
+			"pldatabaseName": {
+				"type": "string",
+				"defaultValue": "dev_clintrail_edc_src"
+			},
+			"PlSchemaNmae": {
+				"type": "string",
+				"defaultValue": "edcsrcmetadata"
+			},
+			"plTableName": {
+				"type": "string",
+				"defaultValue": "srcEdcSilverToGoldControl"
+			}
+		},
+		"folder": {
+			"name": "dev_clintrail/silver_to_gold"
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-07-23T11:41:10Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,77 @@
+{
+	"name": "samplepParquet1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_Azure_Dls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "CM_20260721152303.parquet",
+				"folderPath": "src/CM/ingest_date=2026-07-21",
+				"fileSystem": "landing"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "STUDYID",
+				"type": "UTF8"
+			},
+			{
+				"name": "DOMAIN",
+				"type": "UTF8"
+			},
+			{
+				"name": "USUBJID",
+				"type": "UTF8"
+			},
+			{
+				"name": "CMSEQ",
+				"type": "INT32"
+			},
+			{
+				"name": "CMTRT",
+				"type": "UTF8"
+			},
+			{
+				"name": "CMDECOD",
+				"type": "UTF8"
+			},
+			{
+				"name": "CMDOSE",
+				"type": "DECIMAL",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "CMDOSU",
+				"type": "UTF8"
+			},
+			{
+				"name": "CMROUTE",
+				"type": "UTF8"
+			},
+			{
+				"name": "CMSTDTC",
+				"type": "DATE"
+			},
+			{
+				"name": "CMENDTC",
+				"type": "DATE"
+			},
+			{
+				"name": "CMINDC",
+				"type": "UTF8"
+			},
+			{
+				"name": "MODIFIED_TS",
+				"type": "INT96"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
