@@ -1,0 +1,17 @@
+{
+	"name": "DS_SQLhASHkEY",
+	"properties": {
+		"content": {
+			"query": "CREATE TABLE dbo.emp_dt2\n(\ndepartment VARCHAR(200),\njoining_date date,\nsalary INT,\nbonus_amount int,\ncity VARCHAR(50)\n)\nWITH\n(DISTRIBUTION = HASH (department))\n\nselect * from emp_dt2\n\n\ncopy into [dbo].[emp_dt2] from 'https://stclinical.blob.core.windows.net/clinicaltri-bronze/bronze/emprun1.csv'\nWITH(\nFIELDTERMINATOR=',',\nROWTERMINATOR='0x0A'\n)OPTION ( LABEL = 'COPY: dbo.emp_dt2');",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dsp_dev1",
+				"poolName": "dsp_dev1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
