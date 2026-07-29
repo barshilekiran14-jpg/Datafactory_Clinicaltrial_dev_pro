@@ -1,0 +1,17 @@
+{
+	"name": "create_table",
+	"properties": {
+		"content": {
+			"query": "CREATE EXTERNAL TABLE store_master_india\n(\n    STUDYID VARCHAR(200),\n    DOMAIN VARCHAR(200),\n    USUBJID VARCHAR(200),\n    CMSEQ INT,\n    CMTRT VARCHAR(200),\n    CMDECOD VARCHAR(200),\n    CMDOSE DOUBLE,\n    CMDOSU VARCHAR(200),\n    CMROUTE VARCHAR(200),\n    CMSTDTC DATE,\n    CMENDTC DATE,\n    CMINDC VARCHAR(200),\n    MODIFIED_TS DATETIME,\n    silver_load_ts DATETIME\n)\nWITH(\n    LOCATION = 'clinicaltri-bronze/bronze/store_master_india.csv',\n    DATA_SOURCE = ds_stsy01_file,\n    FILE_FORMAT = ff_csv\n);\n\n\n-- drop EXTERNAL TABLE store_master_india\n\nCREATE EXTERNAL TABLE emp_info\n(\ndepartment VARCHAR(200),\njoining_date date,\nsalary INT,\nbonus_amount int,\ncity VARCHAR(50)\n\n)\nWITH(\n    LOCATION = 'clinicaltri-bronze/bronze/emprun1.csv',\n    DATA_SOURCE = ds_stsy01_file,\n    FILE_FORMAT = ff_csv\n);\n\nselect department,joining_date,salary,city,DENSE_RANK() OVER(PARTITION by department order by salary desc) rn from emp_info ;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "clintrial_dev",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

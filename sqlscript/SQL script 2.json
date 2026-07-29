@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "CREATE TABLE [dbo].[emp_dt]\n(\n[department] [VARCHAR](200),\njoining_date [DATE] ,\nsalary [SMALLINT],\nbonus_amount [SMALLINT],\ncity [VARCHAR] (200)\n\n);\n\nselect * from [dbo].[emp_dt]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dsp_dev1",
+				"poolName": "dsp_dev1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

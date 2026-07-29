@@ -1,0 +1,17 @@
+{
+	"name": "create_database",
+	"properties": {
+		"content": {
+			"query": "CREATE EXTERNAL DATA SOURCE DS_stsynap_file_data with (\n    LOCATION = 'https://stsynapsecli.blob.core.windows.net',\n    CREDENTIAL = sqlondemand\n);\n\n\nCREATE EXTERNAL DATA SOURCE ds_stsy01_file WITH (\n    LOCATION = 'https://stclinical.blob.core.windows.net',\n    CREDENTIAL = sqlondemand\n);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "clintrial_dev",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

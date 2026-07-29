@@ -1,0 +1,17 @@
+{
+	"name": "readdara",
+	"properties": {
+		"content": {
+			"query": "select * from OPENROWSET\n(\n    BULK 'clinicaltri-bronze/bronze/store_master_india.csv',\n    DATA_SOURCE = 'ds_stsy01_file',\n    FORMAT ='CSV',\n    PARSER_VERSION = '2.0',\n    HEADER_ROW = TRUE\n\n) AS DS WHERE store_code = 'ST-5001';\n\n\n\nselect * from OPENROWSET\n(\n    BULK 'silver/cm',\n    DATA_SOURCE = 'ds_stsy01_file',\n    FORMAT ='DELTA'\n) AS TS;\n\n\n\n\n-- DROP EXTERNAL FILE FORMAT ff_csv\n-- CREATE EXTERNAL FILE FORMAT ff_csv\n-- WITH(\n--     FORMAT_TYPE = DELIMITEDTEXT,\n--     FORMAT_OPTIONS ( FIELD_TERMINATOR = ',', STRING_DELIMITER = '\"', FIRST_ROW = 2 )\n\n-- );",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "clintrial_dev",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
