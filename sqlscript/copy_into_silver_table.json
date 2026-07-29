@@ -1,0 +1,17 @@
+{
+	"name": "copy_into_silver_table",
+	"properties": {
+		"content": {
+			"query": "CREATE SCHEMA silver\n\n\nCREATE TABLE silver.emp_info\n(\ndepartment VARCHAR(200),\njoining_date date,\nsalary INT,\nbonus_amount int,\ncity VARCHAR(50)\n)\n\n\n\n-- CREATE DATABASE SCOPED CREDENTIAL sqlondemand\n-- WITH IDENTITY = 'Managed Identity';\n\n-- CREATE DATABASE SCOPED CREDENTIAL sqlondemand\n-- WITH IDENTITY = 'SHARED ACCESS SIGNATURE',\n-- SECRET = '<your-SAS-token>';\n\n\nCOPY INTO silver.emp_info\nFROM 'https://stsynapsecli.blob.core.windows.net/synapse-file/bronze/emp_info/AAA5AFD9-D01A-4581-830D-092CBA5034CC_39_0-1.csv'\nWITH (\n    FILE_TYPE = 'CSV'\n    -- FIELDTERMINATOR = ',',\n    -- ROWTERMINATOR = '0x0A',\n    -- FIRSTROW = 2\n);\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dsp_dev1",
+				"poolName": "dsp_dev1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

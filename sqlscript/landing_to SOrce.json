@@ -1,0 +1,17 @@
+{
+	"name": "landing_to SOrce",
+	"properties": {
+		"content": {
+			"query": "CREATE EXTERNAL TABLE emp_info\n(\ndepartment VARCHAR(200),\njoining_date date,\nsalary INT,\nbonus_amount int,\ncity VARCHAR(50)\n\n)\nWITH(\n    LOCATION = 'clinicaltri-bronze/bronze/emprun1.csv',\n    DATA_SOURCE = ds_stsy01_file,\n    FILE_FORMAT = ff_csv\n);\n\n-- CREATE schema landing;\nCREATE EXTERNAL TABLE landing.emp_info\nWITH(\n     LOCATION = 'synapse-file/landing/emp_info',\n     data_source = DS_stsynap_file_data,\n     FILE_FORMAT = ff_csv\n)AS\nselect *, CURRENT_TIMESTAMP as landing_date from dbo.emp_info\n\nselect * from landing.emp_info;\n\n-- drop EXTERNAL TABLE landing.emp_info\n\n\nCREATE schema bronze;\nCREATE EXTERNAL TABLE bronze.emp_info\nWITH(\n     LOCATION = 'synapse-file/bronze/emp_info',\n     data_source = DS_stsynap_file_data,\n     FILE_FORMAT = ff_csv\n)AS\nselect UPPER(trim(department)) as department, CAST(joining_date as date) as joining_date,salary,bonus_amount,UPPER(trim(city)) as CITY\nfrom dbo.emp_info\n\n\nselect * from bronze.emp_info",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "clintrial_dev",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

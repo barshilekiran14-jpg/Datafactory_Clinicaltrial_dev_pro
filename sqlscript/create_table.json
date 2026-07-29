@@ -7,8 +7,8 @@
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "clintrial_dev",
-				"poolName": "Built-in"
+				"databaseName": "dsp_dev1",
+				"poolName": "dsp_dev1"
 			},
 			"resultLimit": 5000
 		},
